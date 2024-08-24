@@ -38,17 +38,39 @@ const Login = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="bg-[#212121] p-8 rounded shadow-md w-96">
-        <h1 className="text-4xl text-center font-semibold mb-8">Login</h1>
+      <div className="bg-[#212121] p-8 rounded shadow-md w-96 ">
+        <h1 className="text-4xl text-center font-semibold mb-8 text-white">
+          Login
+        </h1>
         <form className="flex flex-col" onSubmit={handleSubmit}>
-          <input type="text" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <button type="submit">Sign In</button>
-          {/* <p>{error && error}</p> */}
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            className="bg-black text-white p-2 rounded mb-4"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            className="bg-black text-white p-2 rounded mb-4"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          >
+            Sign In
+          </button>
+          <p className="text-red-500 mt-2">{error && error}</p>
         </form>
-        <button onClick={() => signIn("google")}>Signin with Google</button>
-        <div className="text-center">----OR----</div>
-        <Link href="/register" className="flex text-center">
+        <button
+          onClick={() => signIn("google")}
+          className="bg-red-500 text-white p-2 rounded mt-4 hover:bg-red-600 "
+        >
+          Sign in with Google
+        </button>
+        <div className="text-center text-white mt-4">----OR----</div>
+        <Link href="/register" className="flex text-center text-blue-400 mt-4">
           Register here
         </Link>
       </div>

@@ -2,14 +2,15 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 const Register = () => {
   const [error, setError] = useState("");
   const router = useRouter();
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const email = e.target[0].value;
     const password = e.target[1].value;
-    // use zod for validation
 
     try {
       const res = await fetch("/api/register", {
@@ -19,31 +20,55 @@ const Register = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-      if (res.status === 400) {
-        setError("This email is already registered");
-      }
-      if (res.status == 200) {
+
+      // Check if response status is 200 (successful registration)
+      if (res.status === 200) {
         setError("");
-        router.push("/login");
+        // Redirect to verification page after successful registration
+        router.push("/verify");
+      } else if (res.status === 400) {
+        // Handle specific error for already registered email
+        setError("This email is already registered");
+      } else {
+        // Handle other unexpected errors
+        setError("An unexpected error occurred. Please try again.");
       }
     } catch (error) {
-      setError("Error Occurred, Try Again");
-      console.log(error);
+      // Handle network or unexpected errors
+      setError("Error occurred, try again");
+      console.error("Error during registration:", error);
     }
   };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="bg-[#212121] p-8 rounded shadow-md w-96">
-        <h1 className="text-4xl text-center font-semibold mb-8">Register</h1>
+        <h1 className="text-4xl text-center font-semibold mb-8 text-white">
+          Register
+        </h1>
         <form className="flex flex-col" onSubmit={handleSubmit}>
-          <input type="text" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <button type="submit">Register</button>
-          <p>{error && error}</p>
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            className="bg-black text-white p-2 rounded mb-4"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            className="bg-black text-white p-2 rounded mb-4"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          >
+            Register
+          </button>
+          <p className="text-red-500 mt-2">{error && error}</p>
         </form>
-        <div className="text-center">----OR----</div>
-        <Link href="/login" className="flex text-center">
+        <div className="text-center text-white mt-4">----OR----</div>
+        <Link href="/login" className="flex text-center text-blue-400 mt-4">
           Login with an existing account
         </Link>
       </div>

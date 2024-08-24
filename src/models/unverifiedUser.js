@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const userSchema = new Schema(
+const unverifieduserSchema = new Schema(
   {
     email: {
       type: String,
@@ -22,4 +22,5 @@ const userSchema = new Schema(
   }
 );
 
-export default mongoose.models.User || mongoose.model("User", userSchema);
+export default mongoose.models.unverifiedUser ||
+  mongoose.model("unverifiedUser", unverifieduserSchema);
